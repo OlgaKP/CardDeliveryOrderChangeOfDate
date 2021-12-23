@@ -10,7 +10,7 @@ public class CardDeliveryOrderNewTest {
 
     @Test
     void shouldSendRegistrationForm() {
-        //open("http://localhost:9999/");
+        open("http://localhost:9999/");
         RegistrationInfo info = DataGenerator.Registration.generateInfo("ru");
         System.out.println(info);
     }

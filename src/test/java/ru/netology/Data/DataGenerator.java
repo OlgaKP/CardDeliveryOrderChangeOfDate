@@ -11,8 +11,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 
 @UtilityClass
 public class DataGenerator {
