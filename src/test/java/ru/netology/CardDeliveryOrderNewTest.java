@@ -40,13 +40,18 @@ public class CardDeliveryOrderNewTest {
 
         // отправка формы с коррекцией даты
         $("[data-test-id='city'] input")
-                .setValue(Keys.chord(Keys.CONTROL, "a", "x", "v"));
+                .sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE), info.getCity());
         $("[data-test-id='date'] input")
                 .sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE), planningDate);
         $("[data-test-id='name'] input")
-                .setValue(Keys.chord(Keys.CONTROL, "a", "x", "v"));
+                .sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE), info.getName());
         $("[data-test-id='phone'] input")
-                .setValue(Keys.chord(Keys.CONTROL, "a", "x", "v"));
+                .sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE), "+" + strPhoneNumber);
         $(".button").click();
+        $("[data-test-id='notification'] .notification__title").shouldHave(Condition.text("Успешно!"),
+                Duration.ofSeconds(15));
+        $("[data-test-id='notification'] .notification__content")
+                .shouldHave(Condition.text("Встреча успешно забронирована на " + planningDate));
+        //$("button.notification__closer").click();
     }
 }
