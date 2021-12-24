@@ -9,8 +9,7 @@ import ru.netology.Data.RegistrationInfo;
 
 import java.time.Duration;
 
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.*;
 import static ru.netology.Data.DataGenerator.generateDate;
 
 public class CardDeliveryOrderNewTest {
@@ -30,13 +29,11 @@ public class CardDeliveryOrderNewTest {
         $("[data-test-id='name'] input").setValue(info.getName());
         $("[data-test-id='phone'] input").setValue("+" + strPhoneNumber);
         $("[data-test-id='agreement'] .checkbox__text").click();
-        $(".button").click();
-        $("[data-test-id='notification'] .notification__title").shouldHave(Condition.text("Успешно!"),
-                Duration.ofSeconds(15));
-        $("[data-test-id='notification'] .notification__content")
-                .shouldHave(Condition.text("Встреча успешно забронирована на " + info.getDate()));
+        $(".button__text").shouldHave(Condition.text("Запланировать")).click();
+        $("[data-test-id='success-notification'] .notification__content")
+                .shouldHave(Condition.text("Встреча успешно запланирована на  " + info.getDate()), Duration.ofSeconds(15));
         $("button.notification__closer").click();
-        System.out.println(info);
+        //System.out.println(info);
 
         // отправка формы с коррекцией даты
         $("[data-test-id='city'] input")
@@ -47,11 +44,11 @@ public class CardDeliveryOrderNewTest {
                 .sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE), info.getName());
         $("[data-test-id='phone'] input")
                 .sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE), "+" + strPhoneNumber);
-        $(".button").click();
-        $("[data-test-id='notification'] .notification__title").shouldHave(Condition.text("Успешно!"),
-                Duration.ofSeconds(15));
-        $("[data-test-id='notification'] .notification__content")
-                .shouldHave(Condition.text("Встреча успешно забронирована на " + planningDate));
-        //$("button.notification__closer").click();
+        $(".button__text").shouldHave(Condition.text("Запланировать")).click();
+        $("[data-test-id='replan-notification'] .notification__content")
+                .shouldHave(Condition.text("У вас уже запланирована встреча на другую дату. Перепланировать?"), Duration.ofSeconds(15));
+        $$("button .button__text").find(Condition.text("Перепланировать")).click();
+        $("[data-test-id='success-notification'] .notification__content")
+                .shouldHave(Condition.text("Встреча успешно запланирована на  " + planningDate), Duration.ofSeconds(15));
     }
 }
