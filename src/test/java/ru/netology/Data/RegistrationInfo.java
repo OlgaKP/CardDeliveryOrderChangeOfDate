@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 
 public class RegistrationInfo {
     private String city;
-    private String date;
     private String name;
     private String phone;
 }
